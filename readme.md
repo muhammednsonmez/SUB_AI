@@ -34,6 +34,7 @@ Run the main script to start the interactive menu:
 
 ```bash
 python main.py
+```
 
 Follow the on-screen instructions to select your video, choose the model size, and configure language settings.
 Once completed, find the subtitled video and .srt file in the outputs folder.
