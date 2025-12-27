@@ -3,8 +3,12 @@
 A Python tool that automatically generates and burns subtitles into videos using the Faster-Whisper model. It detects speech, transcribes it, and hardcodes the subtitles directly onto the video file.
 
 <p align="center">
-  <img src="images/TR_to_TR.png" alt="Turkish to Turkish" width="600">
-  <img src="images/EN_to_EN.png" alt="English to English" width="600">
+  <em>Screenshots</em>
+</p>
+
+<p align="center">
+  <img src="images/TR_to_TR.png" alt="Turkish to Turkish" width="900">
+  <br><br> <img src="images/EN_to_EN.png" alt="English to English" width="900">
 </p>
 
 ## Features
