@@ -27,11 +27,13 @@ CUDA (Optional): To use GPU acceleration, NVIDIA CUDA Toolkit 12.x and zlibwapi.
 [Download CUDA](https://developer.nvidia.com/cuda-12-6-0-download-archive)
 
 ## Usage
-Place your video files (e.g., .mp4, .mov, .avi) into the inputs folder.
+
+Place your video files (e.g., `.mp4`, `.mov`, `.avi`) into the **`inputs`** folder.
 
 Run the main script to start the interactive menu:
-    ```bash
-    python main.py
+
+```bash
+python main.py
 
 Follow the on-screen instructions to select your video, choose the model size, and configure language settings.
 Once completed, find the subtitled video and .srt file in the outputs folder.
