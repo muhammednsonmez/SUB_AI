@@ -30,7 +30,7 @@ VIDEO_EXTENSIONS = {'.mp4', '.mov', '.avi', '.mkv', '.flv', '.webm'}
 class VideoAutoSubtitler:
     def __init__(self, model_size="medium", device="auto", compute_type="int8"):
         self.model_size = model_size
-        print(f"{Fore.CYAN}🤖 Loading Model ({model_size}) on {device.upper()}...{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}Loading Model ({model_size}) on {device.upper()}...{Style.RESET_ALL}")
         try:
             if device == "cpu" and compute_type == "float16":
                 compute_type = "int8"
@@ -52,7 +52,7 @@ class VideoAutoSubtitler:
                 sys.exit(1)
 
     def extract_audio(self, video_path: Path, audio_path: Path):
-        print(f"{Fore.YELLOW}🎧 Extracting audio...{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}Extracting audio...{Style.RESET_ALL}")
         command = ["ffmpeg", "-i", str(video_path), "-ab", "160k", "-ac", "1", "-ar", "16000", "-vn", str(audio_path), "-y"]
         subprocess.run(command, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL, check=True)
 
@@ -66,12 +66,11 @@ class VideoAutoSubtitler:
         return f"{hours:02}:{minutes:02}:{secs:02},{millis:03}"
 
     def clean_text(self, text):
-        """Metni ikonlardan ve gereksiz parantezlerden temizler."""
-        # 1. Parantez içindeki ses efektlerini sil: (Music), [Applause], {Laugh}
+
         text = re.sub(r'[\(\[\{].*?[\)\]\}]', '', text)
-        # 2. Müzik notalarını ve emojileri sil
+
         text = re.sub(r'[🎵🎼🎶🎸🎹🎺📢]', '', text)
-        # 3. Fazla boşlukları temizle
+
         return text.strip()
 
     def generate_srt(self, audio_path: Path, srt_path: Path, task="transcribe", language=None):
@@ -88,7 +87,7 @@ class VideoAutoSubtitler:
             vad_parameters=dict(min_silence_duration_ms=500),
             initial_prompt=prompt,
             condition_on_previous_text=False,
-            word_timestamps=True # <--- KRİTİK: Kelime zamanlamasını açar
+            word_timestamps=True
         )
 
         detected_lang = info.language.upper()
@@ -104,18 +103,18 @@ class VideoAutoSubtitler:
                     text = self.clean_text(segment.text)
                     
                     if not text:
-                        continue # Eğer temizlik sonrası metin boşsa atla
+                        continue
                         
                     # --- SMART TRIMMER ---
                     start_time = segment.start
                     end_time = segment.end
                     
-                    # Eğer kelime detayları varsa, son kelimenin bitişini baz al
+
                     if segment.words:
                         last_word_end = segment.words[-1].end
-                        # Eğer segmentin bitişi, son kelimeden 0.5sn daha uzunsa kırp
+
                         if end_time - last_word_end > 0.5:
-                            end_time = last_word_end + 0.2 # Kelime bittikten 0.2sn sonra kapat
+                            end_time = last_word_end + 0.2
 
                     start_fmt = self.format_timestamp(start_time)
                     end_fmt = self.format_timestamp(end_time)
@@ -171,10 +170,10 @@ def main():
 
     videos = list_videos()
     if not videos:
-        print(f"{Fore.RED}❌ No videos found in 'inputs' folder!{Style.RESET_ALL}"); return
+        print(f"{Fore.RED}No videos found in 'inputs' folder!{Style.RESET_ALL}"); return
 
     # --- 1. VIDEO SELECTION ---
-    print(f"\n{Fore.CYAN}📂 AVAILABLE VIDEOS:{Style.RESET_ALL}")
+    print(f"\n{Fore.CYAN}AVAILABLE VIDEOS:{Style.RESET_ALL}")
     for idx, video in enumerate(videos, 1): print(f"{Fore.YELLOW}{idx}.{Style.RESET_ALL} {video.name}")
     
     try:
@@ -199,7 +198,7 @@ def main():
 
     # --- 4. FONT SIZE ---
     print("-" * 30)
-    print(f"{Fore.CYAN}🎨 STYLE SETTINGS:{Style.RESET_ALL}")
+    print(f"{Fore.CYAN} STYLE SETTINGS:{Style.RESET_ALL}")
     print("Size Guide: 24 (Normal), 32 (Large/YouTube), 40 (Shorts/TikTok)")
     font_input = input("Font Size [Default: 24]: ").strip()
     try:
@@ -241,11 +240,11 @@ def main():
         if has_content:
             success = app.burn_subtitles(selected_video, srt_path, final_video_path, font_size=font_size)
             if success:
-                print(f"\n{Fore.GREEN}✨ PROCESS COMPLETE! ✨{Style.RESET_ALL}")
+                print(f"\n{Fore.GREEN}PROCESS COMPLETE!{Style.RESET_ALL}")
                 print(f"Output: {final_video_path}")
                 os.startfile(OUTPUT_DIR)
         else:
-            print(f"\n{Fore.RED}❌ No speech detected.{Style.RESET_ALL}")
+            print(f"\n{Fore.RED} No speech detected.{Style.RESET_ALL}")
 
         if audio_path.exists(): os.remove(audio_path)
 
