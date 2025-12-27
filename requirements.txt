@@ -1,0 +1,4 @@
+faster-whisper
+tqdm
+ffmpeg-python
+colorama

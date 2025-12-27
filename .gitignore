@@ -1,0 +1,23 @@
+# No_needed files and directories
+subaivenv/
+ffmpeg/
+models/
+__pycache__/
+.vscode/
+
+# Media
+*.mp4
+*.wav
+*.mp3
+*.mkv
+*.avi
+
+# Inputs and Outputs
+inputs/*
+!inputs/.gitkeep
+outputs/*
+!outputs/.gitkeep
+
+# System Files
+.DS_Store
+Thumbs.db
