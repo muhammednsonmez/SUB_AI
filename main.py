@@ -134,7 +134,7 @@ class VideoAutoSubtitler:
         return segment_count > 0
 
     def burn_subtitles(self, video_path: Path, srt_path: Path, output_path: Path, font_size=24):
-        print(f"{Fore.YELLOW}🔥 Burning subtitles (Size: {font_size})...{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW} Burning subtitles (Size: {font_size})...{Style.RESET_ALL}")
         
         video_str = str(video_path)
         srt_str = str(srt_path).replace("\\", "/").replace(":", "\\:")
